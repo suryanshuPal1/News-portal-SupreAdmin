@@ -30,17 +30,20 @@ import Dashboard from './Pages/Dashboard/Dashboard'
 
 function App() {
   const[showNav ,setShowNav] = useState(false);
+  // const dispatch = useDispatch();
+  // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  // const role = useSelector((state) => state.auth.role);
 
-  useEffect(() => {
-    const userId = localStorage.getItem("id");
-    const token = localStorage.getItem("token");
-    const storedRole = localStorage.getItem("role");
+  // useEffect(() => {
+  //   const userId = localStorage.getItem("id");
+  //   const token = localStorage.getItem("token");
+  //   const storedRole = localStorage.getItem("role");
 
-    if (userId && token && storedRole) {
-      dispatch(authActions.login());
-      dispatch(authActions.changeRole(storedRole));
-    }
-  }, [dispatch]); 
+  //   if (userId && storedRole) {
+  //     dispatch(authActions.login());
+  //     dispatch(authActions.changeRole(storedRole));
+  //   }
+  // }, [dispatch]); 
   
   const navHandler=()=>{
     setShowNav((prev) => !prev);
@@ -51,16 +54,22 @@ function App() {
     // console.log(`clicked div ${showNav}`)
 
   };
+  const isLoggedIn = false
+  
 
   return (
     <section className='lg:flex'>
-      <div className='lg:w-[17%]'>
+      {isLoggedIn && 
+      <div className={ `${isLoggedIn ? 'lg:w-[17%] ':'hidden'}`}>
         <Sidebar view={showNav} viewNav={navHandler}/>
-      </div>
-      <div className='lg:w-[83%]'>
-        <SearchNavbar viewNav={navHandler} />
+      </div>}
+      
+      <div className={`${isLoggedIn ? 'lg:w-[83%]': 'lg:w-[100%]'}`}>
+        {isLoggedIn && <SearchNavbar viewNav={navHandler} />}
         <div onClick={closeNav}>
         <Routes>
+        { isLoggedIn === true ? (
+          <>
           <Route path='/notification'element={<Notification/>}/>
 
           <Route path='/'element={<Dashboard/>}/>
@@ -71,21 +80,25 @@ function App() {
 
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/setting' element={<Setting/>}/>
-         
+
           <Route path='/Post-New-Headline' element={<PostNewHeadline/>}/>
           <Route path='/Post-New-Article' element={<PostNewArticle/>}/>
           <Route path='/Post-Video' element={<PostVideo/>}/>
+        </>) :(<>
+          <Route path='/' element={<ResetPassword/>}/>
+        </>)}
 
 
         </Routes>
         </div>
-        <Footer/>
+        {isLoggedIn && <Footer/>}
       </div>
       {/* <ResetPassword />
       <ResetPasswordSuccess />
       <AccountVerification/>  
       <EmailVerification/> */}
     </section>
+    
     
   )
 }
