@@ -1,5 +1,9 @@
 import { Routes,Route } from 'react-router-dom'
 import './App.css'
+
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "./store/auth"; 
+
 import AccountVerification from './Pages/AuthPages/AccountVerification'
 import EmailVerification from './Pages/AuthPages/EmailVerification'
 import ResetPassword from './Pages/AuthPages/ResetPassword'
@@ -12,7 +16,7 @@ import ManageHeadline from './Pages/Management/ManageHeadline'
 import ManageArticle from './Pages/Management/ManageArticle'
 import Footer from './components/footer/Footer'
 
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 
 import PostNewArticle from './Pages/New/PostNewArticle'
 import PostVideo from './Pages/New/PostVideo'
@@ -26,6 +30,17 @@ import Dashboard from './Pages/Dashboard/Dashboard'
 
 function App() {
   const[showNav ,setShowNav] = useState(false);
+
+  useEffect(() => {
+    const userId = localStorage.getItem("id");
+    const token = localStorage.getItem("token");
+    const storedRole = localStorage.getItem("role");
+
+    if (userId && token && storedRole) {
+      dispatch(authActions.login());
+      dispatch(authActions.changeRole(storedRole));
+    }
+  }, [dispatch]); 
   
   const navHandler=()=>{
     setShowNav((prev) => !prev);
