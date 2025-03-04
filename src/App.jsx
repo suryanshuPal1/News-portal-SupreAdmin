@@ -1,22 +1,22 @@
 import { Routes,Route } from 'react-router-dom'
 import './App.css'
+import { useState,useEffect } from 'react'
 
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/auth"; 
 
+
+import SignUp from './Pages/AuthPages/SignUp';
+import SignIn from './Pages/AuthPages/SignIn';
 import AccountVerification from './Pages/AuthPages/AccountVerification'
 import EmailVerification from './Pages/AuthPages/EmailVerification'
 import ResetPassword from './Pages/AuthPages/ResetPassword'
 import ResetPasswordSuccess from './Pages/AuthPages/ResetPasswordSuccess'
-import Sidebar from './components/Sidebar/Sidebar'
-import SearchNavbar from './components/Header/SearchNavbar'
-import Setting from './Pages/Setting'
+
 
 import ManageHeadline from './Pages/Management/ManageHeadline'
 import ManageArticle from './Pages/Management/ManageArticle'
 import Footer from './components/footer/Footer'
-
-import { useState,useEffect } from 'react'
 
 import PostNewArticle from './Pages/New/PostNewArticle'
 import PostVideo from './Pages/New/PostVideo'
@@ -25,25 +25,28 @@ import PostNewHeadline from './Pages/New/PostNewHeadline'
 import Profile from './Pages/Profile'
 import Notification from './Pages/Notification'
 import Dashboard from './Pages/Dashboard/Dashboard'
+import Sidebar from './components/Sidebar/Sidebar'
+import SearchNavbar from './components/Header/SearchNavbar'
+import Setting from './Pages/Setting'
 
 
 
 function App() {
   const[showNav ,setShowNav] = useState(false);
-  // const dispatch = useDispatch();
-  // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  // const role = useSelector((state) => state.auth.role);
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const role = useSelector((state) => state.auth.role);
 
-  // useEffect(() => {
-  //   const userId = localStorage.getItem("id");
-  //   const token = localStorage.getItem("token");
-  //   const storedRole = localStorage.getItem("role");
+  useEffect(() => {
+    const userId = localStorage.getItem("id");
+    const token = localStorage.getItem("token");
+    const storedRole = localStorage.getItem("role");
 
-  //   if (userId && storedRole) {
-  //     dispatch(authActions.login());
-  //     dispatch(authActions.changeRole(storedRole));
-  //   }
-  // }, [dispatch]); 
+    if (userId && storedRole) {
+      dispatch(authActions.login());
+      dispatch(authActions.changeRole(storedRole));
+    }
+  }, [dispatch]); 
   
   const navHandler=()=>{
     setShowNav((prev) => !prev);
@@ -54,7 +57,6 @@ function App() {
     // console.log(`clicked div ${showNav}`)
 
   };
-  const isLoggedIn = false
   
 
   return (
@@ -68,7 +70,7 @@ function App() {
         {isLoggedIn && <SearchNavbar viewNav={navHandler} />}
         <div onClick={closeNav}>
         <Routes>
-        { isLoggedIn === true ? (
+        { isLoggedIn ? (
           <>
           <Route path='/notification'element={<Notification/>}/>
 
@@ -85,7 +87,10 @@ function App() {
           <Route path='/Post-New-Article' element={<PostNewArticle/>}/>
           <Route path='/Post-Video' element={<PostVideo/>}/>
         </>) :(<>
-          <Route path='/' element={<ResetPassword/>}/>
+          <Route path='/reset-pass' element={<ResetPassword/>}/>
+          <Route path='/' element={<SignIn/>}/>
+          <Route path='/sign-in' element={<SignIn/>}/>
+          <Route path='/sign-up' element={<SignUp/>}/>
         </>)}
 
 
