@@ -1,12 +1,12 @@
 import React from 'react';
-import Gicon from "../assets/sign/google.png"
-import Ficon from  "../assets/sign/Facebook.png"
-import Icon from "../assets/sign/icon.png"
+import Gicon from "../../assets/signin/google.png"
+import Ficon from  "../../assets/signin/Facebook.png"
+import Icon from "../../assets/signin/icon.png"
 import { Link } from "react-router-dom";
 
 export default function SignUp() {
   return (
-    <div className="flex h-screen w-full">
+    <div className="flex h-screen w-screen h-screen">
         {/* Right Side - Signup Form */}
         <div className="w-1/2 flex flex-col justify-center items-center p-10">
           <h1 className="text-3xl font-bold mb-6">Sign Up to your <span className="text-black">Super Admin</span></h1>
@@ -77,11 +77,11 @@ export default function SignUp() {
           {/* Login Redirect */}
           <p className="mt-4 text-sm">
             Already have an account?{" "}
-            <Link to='/login' className="text-blue-600 hover:underline">Login</Link >
+            <Link to='/sign-in' className="text-blue-600 hover:underline">Login</Link >
           </p>
   
           {/* Social Signup */}
-          <div className="w-3/4 mt-6 space-y-3">
+          {/* <div className="w-3/4 mt-6 space-y-3">
             <button className="flex items-center justify-center w-full bg-white text-black py-3 border border-gray-300 rounded-lg hover:bg-gray-100 transition">
               <img src={Gicon} alt="Google" className="w-5 h-5 mr-2" />
               Sign up with Google
@@ -90,7 +90,7 @@ export default function SignUp() {
               <img src={Ficon} alt="Facebook" className="w-5 h-5 mr-2" />
               Sign up with Facebook
             </button>
-          </div>
+          </div> */}
         </div>
   
         {/* Left Side - Illustration & Welcome Message */}
@@ -101,7 +101,7 @@ export default function SignUp() {
           <p className="text-lg mt-4 text-gray-300">
             Let&apos;s build something extraordinary together.
           </p>
-          <img src={Icon} alt="Teamwork Illustration" className="w-3/4 mt-10" />
+          <img src={Icon} alt="Teamwork Illustration" className="mt-10 " />
         </div>
       </div>
   )
