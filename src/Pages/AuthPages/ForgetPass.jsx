@@ -24,7 +24,7 @@ const ForgetPass = () => {
                               </input>
                           </div>
                         <div className="text-right mb-6">
-                  <span>Go back to </span><Link to='/forget-pass' className="text-sm text-blue-600 hover:underline">LOG IN</Link>
+                  <span>Go back to </span><Link to='/sign-in' className="text-sm text-blue-600 hover:underline">LOG IN</Link>
                 </div>
       
                 {/* Login Button */}
