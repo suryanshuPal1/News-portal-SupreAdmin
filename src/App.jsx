@@ -30,6 +30,7 @@ import SearchNavbar from './components/Header/SearchNavbar'
 import Setting from './Pages/Setting'
 import ForgetPass from './Pages/AuthPages/ForgetPass';
 import ResetPassOtpVerification from './Pages/AuthPages/ResetPassOtpVerification';
+import EmailVerifySuccess from './Pages/AuthPages/EmailVerifySuccess';
 
 
 
@@ -91,6 +92,7 @@ function App() {
         </>) :(<>
           {/* <Route path='/reset-pass' element={<ResetPassword/>}/> */}
           <Route path='/reset-pass-success' element={<ResetPasswordSuccess/>}/>
+          <Route path='/email-verify-success' element={<EmailVerifySuccess/>}/>
           <Route path='/' element={<SignIn/>}/>
           <Route path='/sign-in' element={<SignIn/>}/>
           <Route path='/sign-up' element={<SignUp/>}/>
