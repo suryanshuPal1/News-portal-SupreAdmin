@@ -12,9 +12,27 @@ import profile from '../../assets/searchBarIcon/Ellipse.png'
 import logout from '../../assets/Dashboard Icon/logout.png'
 import dropleft from '../../assets/Dashboard Icon/dropleft.png'
 import dropdown from '../../assets/Dashboard Icon/dropdown.png'
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import {authActions} from "../../store/auth"
+import { useNavigate } from 'react-router-dom';
 
 
 const Sidebar = ({view}) => {
+  // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
+    // const currentDate = new Date();
+    
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+  const logout = () => {
+    localStorage.removeItem("id");
+    localStorage.removeItem("role"); 
+    dispatch(authActions.logout());
+
+    navigate("/sign-in"); 
+  };
+
   const [ dropManage,setDropManage] = useState(false);
   const [dropNew,setDropNew] = useState(false);
 
@@ -144,7 +162,7 @@ const Sidebar = ({view}) => {
             <span>
               <img src={logout} alt="" />
             </span>
-            <button className="text-[#FFAC06] px-2">Log Out</button>
+            <button onClick={logout} className="text-[#FFAC06] px-2">Log Out</button>
           </div>
         </div>
       </div>
@@ -262,7 +280,7 @@ const Sidebar = ({view}) => {
               <span>
                 <img src={logout} alt="" />
               </span>
-              <button className="text-[#FFAC06] px-2">Log Out</button>
+              <button onClick={logout} className="text-[#FFAC06] px-2">Log Out</button>
             </div>
           </div>
         </div>
