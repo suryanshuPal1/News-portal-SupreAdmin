@@ -28,6 +28,7 @@ import Dashboard from './Pages/Dashboard/Dashboard'
 import Sidebar from './components/Sidebar/Sidebar'
 import SearchNavbar from './components/Header/SearchNavbar'
 import Setting from './Pages/Setting'
+import ForgetPass from './Pages/AuthPages/ForgetPass';
 
 
 
@@ -91,6 +92,9 @@ function App() {
           <Route path='/' element={<SignIn/>}/>
           <Route path='/sign-in' element={<SignIn/>}/>
           <Route path='/sign-up' element={<SignUp/>}/>
+          <Route path='/forget-pass' element={<ForgetPass/>}/>
+          <Route path='/acc-verify' element={<AccountVerification/>}/>
+          <Route path='/email-verify' element={<EmailVerification/>}/>
         </>)}
 
 

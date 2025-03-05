@@ -101,7 +101,7 @@ export default function SignIn() {
                                 </div>
                               </div> 
                               <div className="text-right mb-6">
-                  <a href="#" className="text-sm text-blue-600 hover:underline">Forgot Password?</a>
+                  <Link to='/forget-pass' className="text-sm text-blue-600 hover:underline">Forgot Password?</Link>
                 </div>
       
                 {/* Login Button */}
@@ -128,6 +128,6 @@ export default function SignIn() {
                 <Link  to='/sign-up' className="text-blue-600 ">Sign Up</Link >
               </p>
             </div>
-          </div>
+    </div>
   )
 }
