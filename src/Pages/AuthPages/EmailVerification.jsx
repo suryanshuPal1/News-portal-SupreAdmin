@@ -3,7 +3,7 @@ import emailposter from '../../assets/emailPoster.png';
 
 const EmailVerification = () => {
   return (
-    <div className="flex flex-col md:flex-row h-screen w-full">
+    <div className="flex md:flex-row h-screen w-full">
 
       <div className="h-auto md:h-screen flex flex-col items-center justify-center bg-gray-100 p-6 w-70% md:w-5/8">
         <div className="text-center w-[43%]">
