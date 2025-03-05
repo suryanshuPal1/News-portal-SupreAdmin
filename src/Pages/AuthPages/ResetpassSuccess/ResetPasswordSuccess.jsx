@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./ResetPasswordSuccess.module.css";
-import Image from "../../assets/images/pana.png";
+import Image from "../../../assets/images/pana.png";
+import { Link } from "react-router-dom";
 
 export default function ResetPasswordSuccess() {
   return (
@@ -10,7 +11,9 @@ export default function ResetPasswordSuccess() {
           <h2>Your password has been successfully reset!</h2>
           <p>You can now log in with your new password</p>
           <form className={styles.form}>
+            <Link to='/sign-in'>
             <button>Submit</button>
+            </Link>
           </form>
         </div>
         <div className={styles.right}>

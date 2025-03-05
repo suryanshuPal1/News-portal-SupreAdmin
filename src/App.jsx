@@ -10,8 +10,8 @@ import SignUp from './Pages/AuthPages/SignUp';
 import SignIn from './Pages/AuthPages/SignIn';
 import AccountVerification from './Pages/AuthPages/AccountVerification'
 import EmailVerification from './Pages/AuthPages/EmailVerification'
-import ResetPassword from './Pages/AuthPages/ResetPassword'
-import ResetPasswordSuccess from './Pages/AuthPages/ResetPasswordSuccess'
+// import ResetPassword from './Pages/AuthPages/Resetpass/ResetPassword'
+import ResetPasswordSuccess from './Pages/AuthPages/ResetpassSuccess/ResetPasswordSuccess'
 
 
 import ManageHeadline from './Pages/Management/ManageHeadline'
@@ -29,6 +29,7 @@ import Sidebar from './components/Sidebar/Sidebar'
 import SearchNavbar from './components/Header/SearchNavbar'
 import Setting from './Pages/Setting'
 import ForgetPass from './Pages/AuthPages/ForgetPass';
+import ResetPassOtpVerification from './Pages/AuthPages/ResetPassOtpVerification';
 
 
 
@@ -88,13 +89,15 @@ function App() {
           <Route path='/Post-New-Article' element={<PostNewArticle/>}/>
           <Route path='/Post-Video' element={<PostVideo/>}/>
         </>) :(<>
-          <Route path='/reset-pass' element={<ResetPassword/>}/>
+          {/* <Route path='/reset-pass' element={<ResetPassword/>}/> */}
+          <Route path='/reset-pass-success' element={<ResetPasswordSuccess/>}/>
           <Route path='/' element={<SignIn/>}/>
           <Route path='/sign-in' element={<SignIn/>}/>
           <Route path='/sign-up' element={<SignUp/>}/>
           <Route path='/forget-pass' element={<ForgetPass/>}/>
           <Route path='/acc-verify' element={<AccountVerification/>}/>
           <Route path='/email-verify' element={<EmailVerification/>}/>
+          <Route path='/otp-verify' element={<ResetPassOtpVerification/>}/>
         </>)}
 
 

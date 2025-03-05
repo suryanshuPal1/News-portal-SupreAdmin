@@ -16,7 +16,7 @@ export default function SignIn() {
   const [error, setError] = useState("");
 
   const [values, setValues] = useState({
-    username:"", 
+    email:"", 
     password:"",
   })
   const navigate = useNavigate();
@@ -31,21 +31,17 @@ export default function SignIn() {
   const submit = async () => {
     try{
       if(
-        values.username === ""||
+        values.email === ""||
         values.password === ""
       ){
         setError ("All field are required");
         alert('error')
       }else{   
-        const response = await axios.post("https://newsportalbackend-crdw.onrender.com/api/v1/users/signin", values)
+        const response = await axios.post("https://newsportalbackend-crdw.onrender.com/api/superadmin/signin", values)
         console.log(response.data)
         console.log(response?.data?.user?._id)
-        if(response.data.user.role === "USER"){
-          dispatch(authActions.login())
-          alert(response.data.message)
-        }else{
-          alert('you dont have permission of Super Admin')
-        }
+        
+        dispatch(authActions.login())
         localStorage.setItem("id", response.data.user._id)
         localStorage.setItem("role", response.data.user.role)
 
@@ -71,9 +67,9 @@ export default function SignIn() {
 
               <form className="flex justify-center flex-col w-[80%]" onSubmit={(e) => { e.preventDefault(); submit(); }}>
                           <div className='lg:mb-6 mb-[6%]'>
-                              <label htmlFor="username" className="block mb-2 text-zinc-800 text-sm font-medium">Username</label>
-                              <input type="username" name="username" id="username" 
-                              value={values.username} onChange={change}
+                              <label htmlFor="email" className="block mb-2 text-zinc-800 text-sm font-medium">Username</label>
+                              <input type="email" name="email" id="email" 
+                              value={values.email} onChange={change}
                               className="border border-gray-300  rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-600  placeholder-gray-400 focus:ring-blue-500  focus:border-blue-500" placeholder="Enter your username" required="">
                               </input>
                           </div>
