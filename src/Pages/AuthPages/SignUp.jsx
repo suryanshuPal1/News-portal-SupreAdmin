@@ -50,7 +50,7 @@ const handleSubmit = async (e) => {
       "https://newsportalbackend-crdw.onrender.com/api/superadmin/signup",
       formData
     );
-
+    localStorage.setItem("email",formData.email)
     alert(response.data.message);
     setSuccessMessage(response.data?.message || "Signup successful!");
     setFormData({
@@ -73,54 +73,6 @@ const handleSubmit = async (e) => {
     setLoading(false);
   }
 };
-
-
-
-// const handleChange = (e) => {
-//   setFormData({ ...formData, [e.target.name]: e.target.value });
-// };
-
-
-// const handleSubmit = async (e) => {
-//   e.preventDefault();
-
-//   setLoading(true);
-//   setError(null);
-//   setSuccessMessage("");
-
-//   try {
-//     const response = await axios.post(
-//       "https://newsportalbackend-crdw.onrender.com/api/superadmin/signup",
-//       formData
-//     );
-
-//     if (response.status >= 200 && response.status < 300) {
-//       console.log(response)
-//       setSuccessMessage(response.data.message || "Signup successful!");
-//       setFormData({
-//         fullname: "",
-//         email: "",
-//         phoneNumber: "",
-//         password: "",
-//         confirmPassword: "",
-//       });
-//       navigate("/email-verify");
-//     } else {
-//       throw new Error("Unexpected response from the server.");
-//     }
-//   } catch (err) {
-//     alert(err.response.data.message)
-//     console.error(err.response.data.message);
-//     setError(
-//       err.response?.data?.message ||
-//       err.message ||
-//       "Something went wrong! Please try again."
-//     );
-//   } finally {
-//     setLoading(false);
-//   }
-// };
-
 
 
   return (

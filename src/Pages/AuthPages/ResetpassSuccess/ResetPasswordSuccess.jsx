@@ -12,7 +12,7 @@ export default function ResetPasswordSuccess() {
           <p>You can now log in with your new password</p>
           <form className={styles.form}>
             <Link to='/sign-in'>
-            <button>Submit</button>
+            <button className="rounded w-[50%]">Submit</button>
             </Link>
           </form>
         </div>
