@@ -46,10 +46,13 @@ const handleSubmit = async (e) => {
   setSuccessMessage("");
 
   try {
+    console.log(formData);
     const response = await axios.post(
       "https://newsportalbackend-crdw.onrender.com/api/superadmin/signup",
       formData
     );
+    console.log(response);
+    
     localStorage.setItem("email",formData.email)
     alert(response.data.message);
     setSuccessMessage(response.data?.message || "Signup successful!");

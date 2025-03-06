@@ -64,7 +64,7 @@ function App() {
 
   return (
     <section className='lg:flex'>
-      {isLoggedIn && 
+      {isLoggedIn  && 
       <div className={ `${isLoggedIn ? 'lg:w-[17%] ':'hidden'}`}>
         <Sidebar view={showNav} viewNav={navHandler}/>
       </div>}

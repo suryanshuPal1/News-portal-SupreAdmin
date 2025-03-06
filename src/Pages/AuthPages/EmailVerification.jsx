@@ -72,10 +72,10 @@ const EmailVerification = () => {
           <h3 className="text-2xl font-semibold">Email Verification</h3>
           <p className="text-gray-600 text-sm pt-3">We've sent an verification to <span className="text-black">{userEmail}</span> to verify your email address and activate your account</p>
         </div>
-        <form className="flex justify-center flex-col w-[80%]" onSubmit={(e)=>{e.preventDefault();}}>
+        <form className="flex justify-center items-center flex-col w-[80%]" onSubmit={(e)=>{e.preventDefault();}}>
         <div className='lg:mb-6 w-[60%] m-[4%]'>
              <label htmlFor="otp" className="block mb-2 text-zinc-800 text-sm font-medium">Email/Number</label>
-             <input type="number" name="otp" id="otp" onChange={change}
+             <input type="text" name="otp" id="otp" onChange={change}
               value={values.otp}
              className="border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-600  placeholder-gray-400 focus:ring-blue-500  focus:border-blue-500" placeholder="Enter your registered email/number" required="">
             </input>
@@ -85,7 +85,7 @@ const EmailVerification = () => {
           Didn't recieve any code! <button className="text-[#1C2059]" onClick={handleResend}>Resend Code</button>
         </p>
 
-        <button onClick={submit} className="mt-12 w-[60%] bg-[#1C2059] text-white py-2 rounded-lg">
+        <button onClick={submit} className="mt-12 w-[60%] bg-[#1C2059] text-white py-2 rounded-lg ">
           Verify My Email
         </button>
         </form>
