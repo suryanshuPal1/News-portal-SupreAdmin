@@ -21,6 +21,8 @@ import PostNewHeadline from './Pages/New/PostNewHeadline'
 import Profile from './Pages/Profile'
 import Notification from './Pages/Notification'
 import Dashboard from './Pages/Dashboard/Dashboard'
+import SignIn from './Pages/AuthPages/SignIn'
+import SignUp from './Pages/AuthPages/SignUp'
 
 
 
@@ -60,6 +62,8 @@ function App() {
           <Route path='/Post-New-Headline' element={<PostNewHeadline/>}/>
           <Route path='/Post-New-Article' element={<PostNewArticle/>}/>
           <Route path='/Post-Video' element={<PostVideo/>}/>
+          <Route path='/signin' element={<SignIn/>}/>
+          <Route path='/signup' element={<SignUp/>}/>
 
 
         </Routes>

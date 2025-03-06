@@ -1,7 +1,7 @@
 import React from 'react';
-import Img from "../assets/sign/amico.png"
-import Gicon from "../assets/sign/google.png"
-import Ficon from  "../assets/sign/Facebook.png"
+import Img from "../../assets/signin/amico.png"
+import Gicon from "../../assets/signin/google.png"
+import Ficon from  "../../assets/signin/Facebook.png"
 import {Link} from 'react-router-dom'
 
 export default function SignIn() {

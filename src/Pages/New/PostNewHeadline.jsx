@@ -1,24 +1,86 @@
-import React from 'react'
-import { useState } from "react";
+import React, { useState } from 'react';
 
 export default function PostNewHeadline() {
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [postedBy, setPostedBy] = useState("Arun");
-    const [schedulePost, setSchedulePost] = useState(true);
-    const [scheduleDate, setScheduleDate] = useState("2025-05-07");
-    const [scheduleTime, setScheduleTime] = useState("10:00");
-  
-    return (
-        <div className="flex flex-col min-h-screen">
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [postedBy, setPostedBy] = useState("Arun");
+  const [schedulePost, setSchedulePost] = useState(true);
+  const [scheduleDate, setScheduleDate] = useState("2025-05-07");
+  const [scheduleTime, setScheduleTime] = useState("10:00");
+  const [avatar, setAvatar] = useState(null); // Avatar (formerly coverPhoto)
+  const [avatarUrl, setAvatarUrl] = useState('');
+
+  const handleAvatarChange = (e) => {
+    setAvatar(e.target.files[0]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Upload avatar to Cloudinary (replace with your logic)
+    const uploadToCloudinary = async (file) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', 'your_upload_preset'); // Replace with your Cloudinary upload preset
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/dytvegcwp/image/upload`, // Corrected Cloudinary URL
+        { method: 'POST', body: formData }
+      );
+      const data = await response.json();
+      return data.secure_url;
+    };
+
+    let avatarUrl = '';
+    if (avatar) {
+      avatarUrl = await uploadToCloudinary(avatar);
+    }
+
+    // Prepare payload
+    const payload = {
+      title: title,
+      description: description,
+      avatar: avatarUrl, // Use avatarUrl if needed
+      postedBy: postedBy,
+      schedulePost: schedulePost,
+      scheduleDate: scheduleDate,
+      scheduleTime: scheduleTime,
+    };
+
+    // Submit to API
+    try {
+      const response = await fetch('https://newsportalbackend-crdw.onrender.com/api/v1/admin-news/new-headline-create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json();
+      if (result.success) alert('News created successfully!');
+      else alert('Error creating news:', result.message);
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while creating the news.');
+    }
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen">
       <div className="flex-1 p-6 max-h-screen">
         <h1 className="text-2xl font-semibold mb-4">Create New Headlines</h1>
-  
-        {/* Cover Photo Upload */}
+
+        {/* Avatar Upload */}
         <div className="border-dashed border-2 border-gray-300 rounded-lg flex flex-col items-center justify-center p-6 mb-4">
-          <div className="text-gray-500">+ Add Cover Photo</div>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleAvatarChange}
+            className="hidden"
+            id="avatarInput"
+          />
+          <label htmlFor="avatarInput" className="cursor-pointer text-gray-500">+ Add Avatar</label>
         </div>
-  
+
         {/* Title Input */}
         <label className="block text-sm font-medium text-gray-700">Title</label>
         <input
@@ -28,7 +90,7 @@ export default function PostNewHeadline() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-  
+
         {/* Description Input */}
         <label className="block text-sm font-medium text-gray-700">Description</label>
         <textarea
@@ -37,7 +99,7 @@ export default function PostNewHeadline() {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         ></textarea>
-  
+
         {/* Posted By */}
         <label className="block text-sm font-medium text-gray-700">Posted By</label>
         <input
@@ -46,7 +108,7 @@ export default function PostNewHeadline() {
           value={postedBy}
           readOnly
         />
-  
+
         {/* Schedule Post */}
         <div className="flex items-center mt-4">
           <input
@@ -57,7 +119,7 @@ export default function PostNewHeadline() {
           />
           <label className="ml-2 text-sm font-medium text-gray-700">Schedule your post</label>
         </div>
-  
+
         {/* Schedule Date & Time */}
         {schedulePost && (
           <div className="flex gap-4 mt-3">
@@ -81,14 +143,15 @@ export default function PostNewHeadline() {
             </div>
           </div>
         )}
-  
+
         {/* Submit Button */}
         <button
+          onClick={handleSubmit}
           className="w-full mt-6 bg-blue-900 text-white font-bold py-2 rounded-md hover:bg-blue-800 transition"
         >
           Post Headline
         </button>
       </div>
-      </div>
+    </div>
   )
 }

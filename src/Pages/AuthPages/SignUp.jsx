@@ -1,7 +1,7 @@
 import React from 'react';
-import Gicon from "../assets/sign/google.png"
-import Ficon from  "../assets/sign/Facebook.png"
-import Icon from "../assets/sign/icon.png"
+import Gicon from "../../assets/signin/google.png"
+import Ficon from  "../../assets/signin/Facebook.png"
+import Icon from "../../assets/signin/icon.png"
 import { Link } from "react-router-dom";
 
 export default function SignUp() {
