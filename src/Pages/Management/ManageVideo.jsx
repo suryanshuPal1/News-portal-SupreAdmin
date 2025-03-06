@@ -1,13 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import { AiFillEdit } from "react-icons/ai"; // Importing React Icon
 import Nirmalatai from "../../assets/manage/nermalatai.png";
 
 export default function ManageVideo() {
+  const [videoFile, setVideoFile] = useState(null);
+  const [newsId, setNewsId] = useState("");
+  const [authToken, setAuthToken] = useState("");
+
+  const handleVideoUpload = async () => {
+    if (!videoFile || !newsId || !authToken) {
+      alert("Please provide all required fields.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("video", videoFile);
+
+    try {
+      const response = await fetch(
+        `https://newsportalbackend-crdw.onrender.com/api/v1/admin/news/update-news-avatar&video/${newsId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Authorization": `Bearer ${authToken}`
+          },
+          body: formData
+        }
+      );
+      const result = await response.json();
+      console.log("Video uploaded successfully:", result);
+    } catch (error) {
+      console.error("Error uploading video:", error);
+    }
+  };
+
   return (
     <div className="p-6 pt-22 bg-gray-100">
       <h1 className="text-2xl font-semibold">Manage Video</h1>
 
       <div className="p-2 py-9">
+        {/* News ID Input */}
+        <div>
+          <input
+            type="text"
+            placeholder="News ID"
+            value={newsId}
+            onChange={(e) => setNewsId(e.target.value)}
+            className="border border-gray-200 rounded px-3 py-1 w-[90%] shadow mb-3"
+          />
+        </div>
+
+        {/* Auth Token Input */}
+        <div>
+          <input
+            type="text"
+            placeholder="Auth Token"
+            value={authToken}
+            onChange={(e) => setAuthToken(e.target.value)}
+            className="border border-gray-200 rounded px-3 py-1 w-[90%] shadow mb-3"
+          />
+        </div>
+
         {/* Title Input */}
         <div>
           <div className="flex flex-row justify-between">
@@ -31,13 +85,14 @@ export default function ManageVideo() {
         <div className="py-8">
           <div className="flex flex-row justify-between">
             <input
-              type="text"
-              placeholder="Video"
+              type="file"
+              accept="video/*"
+              onChange={(e) => setVideoFile(e.target.files[0])}
               className="border border-gray-200 rounded px-3 py-1 w-[90%] shadow"
             />
             <div className="flex flex-row items-center space-x-2">
               <AiFillEdit className="text-gray-500 text-lg cursor-pointer" />
-              <button className="font-bold">Edit</button>
+              <button className="font-bold" onClick={handleVideoUpload}>Upload</button>
             </div>
           </div>
           <img src={Nirmalatai} alt="Video Thumbnail" className="w-[95%] py-5" />
