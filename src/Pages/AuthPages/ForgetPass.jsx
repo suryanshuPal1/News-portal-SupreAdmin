@@ -21,7 +21,8 @@ const ForgetPass = () => {
       }else{
         const response = await axios.post(' https://newsportalbackend-crdw.onrender.com/api/superadmin/forgot-password',values)
         // console.log(response.data.message)
-        // console.log(response)
+        console.log(response)
+        localStorage.setItem("email", values.email)
         alert(response.data.message)
         // alert(response?.data.message)
         navigate("/otp-verify")

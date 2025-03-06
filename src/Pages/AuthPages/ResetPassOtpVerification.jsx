@@ -10,7 +10,8 @@ import { Link } from "react-router-dom";
 
 const ResetPassOtpVerification = () => {
     const [showPassword, setShowPassword] = useState(false);
- const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const useremail = localStorage.getItem("email");
 
  const navigate = useNavigate()
 
@@ -19,14 +20,16 @@ const ResetPassOtpVerification = () => {
  const [error, setError] = useState(null);
 
  const [formData, setFormData] = useState({
-  email: "",
   otp: "",
-  password: "",
+  newPassword: "",
 });
 console.log(formData)
 
 const handleChange = (e) => {
-  setFormData({ ...formData, [e.target.name]: e.target.value });
+  setFormData((prevState) => ({ 
+    ...prevState, 
+    [e.target.name]: e.target.value 
+  }));
 };
 
 
@@ -38,30 +41,39 @@ const handleSubmit = async (e) => {
   setSuccessMessage("");
 
   try {
-    const response = await axios.post(
-      " https://newsportalbackend-crdw.onrender.com/api/superadmin/reset-password",
-      formData
-    );
+    if (!useremail || !formData.otp || !formData.newPassword ) {
+      setError("All fields are required");
+      alert("All fields are required");
+      setLoading(false);
+      return; 
+    }else{
+      console.log("Sending request with data:", formData);
+      const payload = {
+        email:useremail,
+        otp : formData?.otp,
+        newPassword : formData?.newPassword
 
-    if (response.status >= 200 && response.status < 300) {
-      setSuccessMessage(response.data.message || "Signup successful!");
-      setFormData({
-        email: "",
-        otp: "",
-        password: "",
-      });
-      navigate("/sign-in");
-    } else {
-      throw new Error("Unexpected response from the server.");
-    }
-  } catch (err) {
+      }
+      const response = await axios.post(
+        " https://newsportalbackend-crdw.onrender.com/api/superadmin/reset-password",
+        payload
+      );
+      // console.log(response)
+      alert(response.data.message);
+        setSuccessMessage(response.data.message || "Signup successful!");
+        setFormData({
+          otp: "",
+          newPassword: "",
+        });
+        navigate("/reset-pass-success");
+        localStorage.clear()
+    } 
+  }catch (err) {
+    console.log(err)
     alert(err.response.data.message)
-    // console.error(err.response.data.message);
-    setError(
-      err.response?.data?.message ||
-      err.message ||
-      "Something went wrong! Please try again."
-    );
+    const errorMessage = err.response?.data?.message || "Something went wrong! Please try again.";
+    alert(errorMessage);
+    setError(errorMessage);
   } finally {
     setLoading(false);
   }
@@ -80,11 +92,12 @@ const handleSubmit = async (e) => {
                             <input
                                 type="email"
                                 name="email"
-                                value={formData.email}
-                                onChange={handleChange}
+                                value={useremail}
+                                // onChange={handleChange}
                                 className="border border-gray-300 rounded-lg w-full p-2.5"
-                                placeholder="Enter your registered email"
+                                // placeholder="Enter your registered email"
                                 required
+                                disabled={true}
                             />
                         </div>
                         <div className="mb-4">
@@ -104,8 +117,8 @@ const handleSubmit = async (e) => {
                             <div className="relative">
                                 <input
                                     type={showPassword ? "text" : "password"}
-                                    name="password"
-                                    value={formData.password}
+                                    name="newPassword"
+                                    value={formData.newPassword}
                                     onChange={handleChange}
                                     className="border border-gray-300 rounded-lg w-full p-2.5 pr-10"
                                     placeholder="Enter your password"

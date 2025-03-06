@@ -26,8 +26,8 @@ const Sidebar = ({view}) => {
     const dispatch = useDispatch();
 
   const logout = () => {
-    localStorage.removeItem("id");
-    localStorage.removeItem("role"); 
+    localStorage.clear();
+    // localStorage.removeItem("role"); 
     dispatch(authActions.logout());
 
     navigate("/sign-in"); 

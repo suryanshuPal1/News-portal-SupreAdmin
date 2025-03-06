@@ -1,137 +1,168 @@
-import React from 'react'
-import Ellipse from '../assets/home/Ellipse.png'
+import React, { useEffect, useState } from "react";
+import Ellipse from "../assets/home/Ellipse.png";
 
 export default function Profile() {
+  const [profile, setProfile] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    bio: "",
+    profilePic: null,
+  });
+
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
+  });
+
+  const token = localStorage.getItem("authToken"); // Get token dynamically
+
+  useEffect(() => {
+    if (!token) {
+      alert("No token provided. Redirecting to login...");
+      window.location.href = "/login"; // Redirect to login page
+      return;
+    }
+
+    fetch("https://newsportalbackend-crdw.onrender.com/api/superadmin/profilen", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (res.status === 401) {
+          alert("Session expired. Please login again.");
+          localStorage.removeItem("authToken");
+          window.location.href = "/login";
+          return;
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setProfile({
+          name: data.name || "",
+          email: data.email || "",
+          phone: data.phone || "",
+          bio: data.bio || "",
+        });
+      })
+      .catch((error) => console.error("Error fetching profile:", error));
+  }, [token]);
+
+  const handleInputChange = (e) => {
+    setProfile({ ...profile, [e.target.name]: e.target.value });
+  };
+
+  const handlePasswordChange = (e) => {
+    setPasswordData({ ...passwordData, [e.target.name]: e.target.value });
+  };
+
+  const handleProfilePicChange = (e) => {
+    setProfile({ ...profile, profilePic: e.target.files[0] });
+  };
+
+  const handleProfileUpdate = () => {
+    fetch("https://newsportalbackend-crdw.onrender.com/api/superadmin/update-profile", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(profile),
+    })
+      .then((res) => res.json())
+      .then((data) => alert(data.message))
+      .catch((error) => console.error("Error updating profile:", error));
+  };
+
+  const handleBioPicUpdate = () => {
+    const formData = new FormData();
+    formData.append("bio", profile.bio);
+    if (profile.profilePic) {
+      formData.append("profilePic", profile.profilePic);
+    }
+
+    fetch("https://newsportalbackend-crdw.onrender.com/api/superadmin/update-bio-profilepic", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => alert(data.message))
+      .catch((error) => console.error("Error updating bio/profile pic:", error));
+  };
+
+  const handleChangePassword = () => {
+    if (passwordData.newPassword !== passwordData.confirmNewPassword) {
+      alert("New passwords do not match!");
+      return;
+    }
+
+    fetch("https://newsportalbackend-crdw.onrender.com/api/superadmin/change-password", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        oldPassword: passwordData.currentPassword,
+        newPassword: passwordData.newPassword,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => alert(data.message))
+      .catch((error) => console.error("Error changing password:", error));
+  };
+
   return (
     <div className="mt-10 flex justify-center items-start bg-gray-100 min-h-screen py-12">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl w-full px-4">
-        {/* Left Side */}
         <div className="space-y-6">
-          <div className="bg-white rounded-xl shadow-md overflow-hidden">
-            <div className="p-6">
-              {/* Profile Heading */}
-              <h4 className="text-lg font-semibold text-gray-900 mb-4">Profile</h4>
-
-              <div className="flex flex-col items-center">
-                <img
-                  className="h-24 w-24 rounded-full object-cover mb-2"
-                  src={Ellipse}
-                  alt="Arun Sharma"
-                />
-                <h3 className="text-md font-semibold text-gray-900">Arun Sharma</h3>
-                <p className="text-gray-600 text-sm">arun1416@gmail.com</p>
-              </div>
+          <div className="bg-white rounded-xl shadow-md overflow-hidden p-6">
+            <h4 className="text-lg font-semibold text-gray-900 mb-4">Profile</h4>
+            <div className="flex flex-col items-center">
+              <img className="h-24 w-24 rounded-full object-cover mb-2" src={Ellipse} alt={profile.name} />
+              <input type="file" onChange={handleProfilePicChange} className="mt-2" />
+              <h3 className="text-md font-semibold text-gray-900">{profile.name}</h3>
+              <p className="text-gray-600 text-sm">{profile.email}</p>
             </div>
           </div>
 
-          {/* Biography */}
-          <div className="bg-white rounded-xl shadow-md overflow-hidden">
-            <div className="p-6">
-              <h4 className="text-md font-semibold text-gray-900 mb-2">BIOGRAPHY</h4>
-              <p className="text-gray-700 text-sm">
-                Arun is an avid newspaper reader who starts his day with a fresh cup of coffee and the latest headlines.
-                Born and raised in a small town, John developed a deep appreciation for staying informed about global
-                affairs, local news, and cultural trends. His interest in journalism was sparked at an early age when he
-                would read the morning paper alongside his parents, engaging in discussions about politics, sports, and
-                society. For Arun, reading the newspaper is not just a habit—it's a ritual that keeps him connected to the
-                world, fosters critical thinking, and fuels his curiosity about the ever-evolving landscape of news and
-                information.
-              </p>
-            </div>
+          <div className="bg-white rounded-xl shadow-md overflow-hidden p-6">
+            <h4 className="text-md font-semibold text-gray-900 mb-2">BIOGRAPHY</h4>
+            <textarea name="bio" value={profile.bio} onChange={handleInputChange} className="w-full p-2 border rounded-md"></textarea>
+            <button onClick={handleBioPicUpdate} className="mt-3 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md">
+              Update Bio & Picture
+            </button>
           </div>
         </div>
 
-        {/* Right Side: Profile Form */}
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
-          <div className="p-6">
-            {/* Profile Heading */}
-            <h4 className="text-lg font-semibold text-gray-900 mb-4">Profile</h4>
+        <div className="bg-white rounded-xl shadow-md overflow-hidden p-6">
+          <h4 className="text-lg font-semibold text-gray-900 mb-4">Profile</h4>
+          <label>Name</label>
+          <input type="text" name="name" value={profile.name} onChange={handleInputChange} className="block w-full border p-2" />
+          <label>Email</label>
+          <input type="email" name="email" value={profile.email} onChange={handleInputChange} className="block w-full border p-2" />
+          <label>Phone</label>
+          <input type="tel" name="phone" value={profile.phone} onChange={handleInputChange} className="block w-full border p-2" />
+          <button onClick={handleProfileUpdate} className="mt-3 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md">
+            Save Now
+          </button>
 
-            <div className="space-y-4 mb-6">
-              <div>
-                <h5 className="block text-sm font-medium text-gray-700">User Information</h5>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
-                  defaultValue="Arun Sharma"
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
-                  defaultValue="arun14@gmail.com"
-                />
-              </div>
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                  Phone
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
-                  defaultValue="(+91) 12345 67890"
-                />
-              </div>
-              <div>
-                <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                  Save Now
-                </button>
-              </div>
-            </div>
-
-            {/* Password Change Section */}
-            <div className="space-y-4">
-              <h4 className="text-md font-semibold text-gray-900 mb-2">Password</h4>
-              <div>
-                <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700">
-                  Current Password
-                </label>
-                <input
-                  type="password"
-                  id="currentPassword"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
-                  defaultValue="********"
-                />
-              </div>
-              <div>
-                <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700">
-                  New Password
-                </label>
-                <input
-                  type="password"
-                  id="newPassword"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
-                />
-              </div>
-              <div>
-                <label htmlFor="confirmNewPassword" className="block text-sm font-medium text-gray-700">
-                  Confirm New Password
-                </label>
-                <input
-                  type="password"
-                  id="confirmNewPassword"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
-                />
-              </div>
-              <div>
-                <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                  Save Changes
-                </button>
-              </div>
-            </div>
-          </div>
+          <h4 className="text-md font-semibold text-gray-900 mt-6">Password</h4>
+          <input type="password" name="currentPassword" value={passwordData.currentPassword} onChange={handlePasswordChange} className="block w-full border p-2" placeholder="Current Password" />
+          <input type="password" name="newPassword" value={passwordData.newPassword} onChange={handlePasswordChange} className="block w-full border p-2" placeholder="New Password" />
+          <input type="password" name="confirmNewPassword" value={passwordData.confirmNewPassword} onChange={handlePasswordChange} className="block w-full border p-2" placeholder="Confirm New Password" />
+          <button onClick={handleChangePassword} className="mt-3 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md">
+            Save Changes
+          </button>
         </div>
       </div>
     </div>
-  )
+  );
 }

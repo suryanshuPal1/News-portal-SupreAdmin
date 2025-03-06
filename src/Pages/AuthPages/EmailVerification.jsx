@@ -1,43 +1,98 @@
-import React from "react";
+import React,{useState} from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import emailposter from '../../assets/emailPoster.png';
 
-const EmailVerification = () => {
-  return (
-    <div className="flex md:flex-row h-screen w-full">
 
-      <div className="h-auto md:h-screen flex flex-col items-center justify-center bg-gray-100 p-6 w-70% md:w-5/8">
+const EmailVerification = () => {
+  const navigate = useNavigate()
+  const userEmail = localStorage.getItem("email")
+  
+  
+  const [values,setValues] = useState({otp:""});
+  const [isOtpSent, setIsOtpSent]= useState(false)
+
+  const change=(e)=>{
+    const {name ,value} = e.target
+    setValues({...values ,[name]:value})
+  }
+  console.log(userEmail)
+
+
+  const submit = async () => {
+    try {
+      if(userEmail === ""){
+        alert('Invalid email')
+      }else{
+
+        const payload = {
+          email:userEmail,
+          otp : values.otp
+        }
+        console.log(payload);
+        
+        const response = await axios.post('https://newsportalbackend-crdw.onrender.com/api/superadmin/verify-email',payload)
+        // console.log(response)
+        console.log(response)
+        localStorage.setItem("email", values.email)
+        alert(response.data.message)
+        // alert(response?.data.message)
+        navigate("/email-verify-success")
+      }
+    } catch (error) {
+      console.log(error)
+      alert(error.response?.data?.message);
+    }
+  }
+
+  async function resendOtp(){
+    try {
+      const payload={
+        email:userEmail,
+      }
+      const response = await axios.post('https://newsportalbackend-crdw.onrender.com/api/superadmin/resend-otp',payload)
+      alert(response.data.message)
+    } catch (error) {
+      
+      console.log(error)
+      alert(error.response?.data?.message);
+    }
+  }
+
+  async function handleResend(){
+    await resendOtp();
+  }
+
+
+  return (
+    <div className="lg:flex lg:flex-row md:flex md:flex-col-reverse w-screen h-screen">
+
+      <div className="h-auto md:h-screen flex flex-col items-center justify-center bg-gray-100 p-6 lg:w-[60%]">
         <div className="text-center w-[43%]">
           <h3 className="text-2xl font-semibold">Email Verification</h3>
-          <p className="text-gray-600 text-sm pt-3">We've sent an verification to <span className="text-black">arun14@gmail.com</span> to verify your email address and activate your account</p>
+          <p className="text-gray-600 text-sm pt-3">We've sent an verification to <span className="text-black">{userEmail}</span> to verify your email address and activate your account</p>
         </div>
-
-        <div className="w-full max-w-[80%] p-2 mt-8 border border-zinc-300 rounded-lg text-center">
-          <label htmlFor="Enter Verification Code...">
-            <input type="text" placeholder="Enter Verification Code..."/>
-          </label>
+        <form className="flex justify-center items-center flex-col w-[80%]" onSubmit={(e)=>{e.preventDefault();}}>
+        <div className='lg:mb-6 w-[60%] m-[4%]'>
+             <label htmlFor="otp" className="block mb-2 text-zinc-800 text-sm font-medium">Email/Number</label>
+             <input type="text" name="otp" id="otp" onChange={change}
+              value={values.otp}
+             className="border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-600  placeholder-gray-400 focus:ring-blue-500  focus:border-blue-500" placeholder="Enter your registered email/number" required="">
+            </input>
         </div>
-
+        
         <p className="text-gray-500 font-bold text-sm text-center mt-4 px-4">
-          Didn't recieve any code! <span className="text-[#1C2059]">Resend Code</span>
+          Didn't recieve any code! <button className="text-[#1C2059]" onClick={handleResend}>Resend Code</button>
         </p>
 
-        <button className="mt-12 w-[60%] bg-[#1C2059] text-white py-2 rounded-lg">
+        <button onClick={submit} className="mt-12 w-[60%] bg-[#1C2059] text-white py-2 rounded-lg ">
           Verify My Email
         </button>
+        </form>
       </div>
 
-      <div className="h-[50vh] md:h-screen w-full md:w-3/8 bg-[#1C2059] flex flex-col items-center justify-center p-6">
-        <h1 className="font-bold text-2xl text-center text-white">
-          Welcome to <span className="text-yellow-500">super admin!</span>
-        </h1>
-
-        <p className="text-zinc-300 text-center mt-2 text-sm md:text-base">
-          Empower decisions, simplifying control
-        </p>
-
-        <div className="flex justify-center mt-3 w-90">
-          <img src={emailposter} alt="Super Admin" className="w-60 md:w-60 mt-5" />
-        </div>
+      <div className="md:h-screen lg:w-[40%]  bg-[#1C2059] flex flex-col items-center justify-center p-6">
+          <img src={emailposter} alt="Super Admin" className="w-60 md:w-60 mt-5" />       
       </div>
 
     </div>
