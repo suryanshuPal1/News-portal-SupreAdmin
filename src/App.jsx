@@ -107,10 +107,6 @@ function App() {
         </div>
         {isLoggedIn && <Footer/>}
       </div>
-      {/* <ResetPassword />
-      <ResetPasswordSuccess />
-      <AccountVerification/>  
-      <EmailVerification/> */}
     </section>
     
     

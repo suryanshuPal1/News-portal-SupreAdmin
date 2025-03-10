@@ -44,8 +44,8 @@ const Sidebar = ({view}) => {
   }
   return (
     <>
-      <div className="!hidden lg:!block lg:flex flex-col lg:h-screen md:h-200 w-[17%] bg-[#1C2059] text-white items-center md:pt-20 lg:pt-30 fixed left-0">
-        <div className=" w-full pb-3">
+      <div className="!hidden lg:!block lg:flex flex-col lg:h-screen md:h-200 w-[17%] bg-[#1C2059] text-white items-center md:pt-10 lg:pt-15 fixed left-0">
+        <div className=" w-full pb-3 ">
           <Link
             to="/"
             className="hover:bg-[#FFAC06] flex flex-row mt-4 px-5 py-2"
@@ -128,10 +128,21 @@ const Sidebar = ({view}) => {
             </div>
           )}
 
-          <Link
-            to="/profile"
-            className="hover:bg-[#FFAC06] mt-4 px-5 py-2 flex flex-row"
-          >
+          <Link to="/profile" className="hover:bg-[#FFAC06] mt-4 px-5 py-2 flex flex-row">
+            <span className="mr-4">
+              <img src={profileIcon} alt="" />
+            </span>
+            Post News 
+          </Link>
+
+          <Link to="/profile" className="hover:bg-[#FFAC06] mt-4 px-5 py-2 flex flex-row">
+            <span className="mr-4">
+              <img src={setting} alt="" />
+            </span>
+            User Management 
+          </Link>
+
+          <Link to="/profile" className="hover:bg-[#FFAC06] mt-4 px-5 py-2 flex flex-row">
             <span className="mr-4">
               <img src={profileIcon} alt="" />
             </span>
@@ -166,6 +177,8 @@ const Sidebar = ({view}) => {
           </div>
         </div>
       </div>
+
+      {/* mobile vav */}
       {view && (
         <div className="fixed h-full bg-[#1C2059] text-white h-250 z-100 pt-20 p-4 lg:hidden w-60">
           <div className=" w-full pb-3">
@@ -251,17 +264,26 @@ const Sidebar = ({view}) => {
               </div>
             )}
 
-          <Link
-            to="/profile"
-            className="hover:bg-[#FFAC06] mt-4 px-5 py-2 flex flex-row"
-          >
+          <Link to="/profile" className="hover:bg-[#FFAC06] mt-4 px-5 py-2 flex flex-row">
+            <span className="mr-4">
+              <img src={profileIcon} alt="" />
+            </span>
+            Post News 
+          </Link>
+          <Link to="/profile" className="hover:bg-[#FFAC06] mt-4 px-5 py-2 flex flex-row">
+            <span className="mr-4">
+              <img src={setting} alt="" />
+            </span>
+            User Management
+          </Link>
+          <Link to="/profile" className="hover:bg-[#FFAC06] mt-4 px-5 py-2 flex flex-row">
             <span className="mr-4">
               <img src={profileIcon} alt="" />
             </span>
             Profile 
           </Link>
 
-            <Link to="/setting" className="hover:bg-[#FFAC06] mt-4 px-5 py-2 flex flex-row">
+          <Link to="/setting" className="hover:bg-[#FFAC06] mt-4 px-5 py-2 flex flex-row">
               <span className="mr-4"><img src={setting} alt="" /></span>
                 Setting
             </Link>
