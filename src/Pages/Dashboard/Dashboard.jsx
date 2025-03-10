@@ -27,6 +27,27 @@ export default function Dashboard() {
     { name: 'Dec', sports: 7000000, politics: 4300000, business: 1100000, world: 3400000, travel: 2400000, others: 2700000, indianNews: 6000000 }
   ];
 
+  const recentActivities = [
+    {
+      icon: "👤",
+      title: "New user registration",
+      description: "John Doe joined the platform",
+      time: "5 minutes ago",
+    },
+    {
+      icon: "📄",
+      title: "Article published",
+      description: '"Top 10 Tech Trends in 2024" is now live',
+      time: "15 minutes ago",
+    },
+    {
+      icon: "💬",
+      title: "New comment",
+      description: 'Sarah commented on "The Future of AI"',
+      time: "45 minutes ago",
+    },
+  ];
+
   // Function to format the Y-axis labels to millions
   const formatYAxis = (tick) => {
     try {
@@ -168,6 +189,26 @@ export default function Dashboard() {
           <button className="border-gray-400 border-solid border px-4 py-1 rounded-md bg-blue-500 text-white hover:bg-blue-600 text-sm">
             Revenue
           </button>
+        </div>
+
+        <div className="mt-6 bg-white p-6 rounded-lg shadow">
+          <h3 className="text-lg font-semibold mb-4">Recent Activity</h3>
+          <ul>
+            {recentActivities.map((activity, index) => (
+              <li key={index} className="flex justify-between items-center border-b py-4">
+                <div className="flex items-center gap-4">
+                  <span className="flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full text-xl">
+                    {activity.icon}
+                  </span>
+                  <div>
+                    <p className="font-semibold">{activity.title}</p>
+                    <p className="text-gray-500 text-sm">{activity.description}</p>
+                  </div>
+                </div>
+                <span className="text-gray-400 text-sm">{activity.time}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>

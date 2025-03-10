@@ -16,6 +16,7 @@ import Profile from './Pages/Profile'
 import Notification from './Pages/Notification'
 import Dashboard from './Pages/Dashboard/Dashboard'
 
+
 function App() {
   const[showNav, setShowNav] = useState(false);
   
@@ -37,13 +38,15 @@ function App() {
         <div onClick={closeNav}>
           <Routes>
             <Route path='/' element={<Dashboard/>}/>
+            
             <Route path='/notification' element={<Notification/>}/>
-            <Route path='/show-news' element={<ShowNews/>}/>
+            
             <Route path='/manage-headline/:newsId' element={<ManageHeadline/>}/>
             <Route path='/manage-new-article' element={<ManageArticle/>}/>
             <Route path='/manage-video' element={<ManageVideo/>}/>
             <Route path='/profile' element={<Profile/>}/>
             <Route path='/setting' element={<Setting/>}/>
+            <Route path='/show-news' element={<ShowNews/>}/>
             <Route path='/post-new-headline' element={<PostNewHeadline/>}/>
             <Route path='/post-new-article' element={<PostNewArticle/>}/>
             <Route path='/post-video' element={<PostVideo/>}/>

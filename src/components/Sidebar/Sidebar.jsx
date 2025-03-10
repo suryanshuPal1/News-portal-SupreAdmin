@@ -37,6 +37,7 @@ const Sidebar = (view) => {
             </span>
             Dashboard
           </Link>
+          
 
           <div className={`hover:bg-[#FFAC06] flex flex-row mt-4 px-5 py-2  ${
               dropNew ? "bg-[#FFAC06]" : "bg-white-0"}`} onClick={() => dropNewHandler()}>
@@ -90,7 +91,7 @@ const Sidebar = (view) => {
           {dropManage && (
             <div className="flex flex-col pl-13 text-sm">
               <Link
-                to={"/Manage-New-Headline"}
+                to={"/manage-headline"}
                 className="flex flex-row hover:text-[#FFAC06] mt-2"
               >
                 <span className="mr-3"><img src={manageNewHeadlineIcon} alt=""
