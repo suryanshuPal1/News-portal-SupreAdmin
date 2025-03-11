@@ -3,6 +3,8 @@ import { useState } from "react";
 
 export default function PostNewHeadline() {
     const [title, setTitle] = useState("");
+    const [subcategory, setSubcategory] = useState("");
+    const [category, setCategory] = useState("");
     const [description, setDescription] = useState("");
     const [postedBy, setPostedBy] = useState("Arun");
     const [schedulePost, setSchedulePost] = useState(true);
@@ -18,6 +20,30 @@ export default function PostNewHeadline() {
         <div className="border-dashed border-2 border-gray-300 rounded-lg flex flex-col items-center justify-center p-6 mb-4">
           <div className="text-gray-500">+ Add Cover Photo</div>
         </div>
+                
+                {/* Category and Subcategory */}
+        <div className="flex flex-row w-full space-x-4 p-4 ">
+             <div className='flex flex-col  w-1/2 '>
+                      category
+                      <input
+          type="text"
+          className="bg-white text-gray-500 px-6 py-3 border border-gray-400 p-2 rounded-md "
+          placeholder="News"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        />
+                </div>
+          
+              <div className='flex flex-col space-y-2 w-1/2'> Subcategory 
+              <input
+          type="text"
+          className="bg-white text-gray-500 px-6 py-3 border border-gray-400 p-2 rounded-md  "
+          placeholder="News"
+          value={subcategory}
+          onChange={(e) => setSubcategory(e.target.value)}
+        />
+                </div>
+                </div>
   
         {/* Title Input */}
         <label className="block text-sm font-medium text-gray-700">Title</label>
@@ -48,7 +74,7 @@ export default function PostNewHeadline() {
         />
   
         {/* Schedule Post */}
-        <div className="flex items-center mt-4">
+        <div className="flex flex-row   items-center mt-4">
           <input
             type="checkbox"
             checked={schedulePost}
@@ -56,6 +82,13 @@ export default function PostNewHeadline() {
             className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
           />
           <label className="ml-2 text-sm font-medium text-gray-700">Schedule your post</label>
+          <input
+            type="checkbox"
+            checked={schedulePost}
+            onChange={() => setSchedulePost(!schedulePost)}
+            className="h-4 w-4 ml-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+          />
+          <label className="ml-2 text-sm font-medium text-gray-700">Enable comments</label>
         </div>
   
         {/* Schedule Date & Time */}

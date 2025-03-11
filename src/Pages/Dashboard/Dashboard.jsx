@@ -95,7 +95,7 @@ export default function Dashboard() {
         </div>
       </div>
       {/* Analytics Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 px-4 lg:px-8 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 px-4 lg:px-5 ">
         <div className="bg-white rounded-md p-4 shadow-sm">
           <h2 className="text-gray-500 text-sm font-medium mb-2 flex items-center space-x-2 justify-between">
             Article Engagement <span className="material-symbols-outlined text-2xl"><SiLibreofficewriter /></span>
@@ -148,7 +148,7 @@ export default function Dashboard() {
         </div>
 
         {/* Placeholder for Graph */}
-        <div className="h-64 bg-gray-100 rounded-md flex items-center justify-center mb-4">
+        <div className="h-64 bg-gray-100 rounded-md flex items-center justify-center mb-4 overlay-hidden ">
           {/* Recharts Line Chart */}
           <ResponsiveContainer width="100%" height={300}>
              {(() => {
