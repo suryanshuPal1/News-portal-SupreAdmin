@@ -31,6 +31,7 @@ import Setting from './Pages/Setting'
 import ForgetPass from './Pages/AuthPages/ForgetPass';
 import ResetPassOtpVerification from './Pages/AuthPages/ResetPassOtpVerification';
 import EmailVerifySuccess from './Pages/AuthPages/EmailVerifySuccess';
+import UserMangement from './Pages/UserMangement';
 
 
 
@@ -89,6 +90,7 @@ function App() {
           <Route path='/Post-New-Headline' element={<PostNewHeadline/>}/>
           <Route path='/Post-New-Article' element={<PostNewArticle/>}/>
           <Route path='/Post-Video' element={<PostVideo/>}/>
+          <Route path='/user-Management' element ={<UserMangement/>}/>
         </>) :(<>
           {/* <Route path='/reset-pass' element={<ResetPassword/>}/> */}
           <Route path='/reset-pass-success' element={<ResetPasswordSuccess/>}/>

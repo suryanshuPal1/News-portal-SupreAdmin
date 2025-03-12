@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import thumbnail from "../../assets/manage/thumbnail.png";  
 import editIcon from "../../assets/manage/editIcon.png";  
 
-const ManageHeadline = () => {  
-  const [newsId, setNewsId] = useState("");  
+const ManageHeadline = ({ newsId }) => {  
   const [selectedFile, setSelectedFile] = useState(null);  
 
   const handleFileChange = (event) => {  
@@ -12,7 +11,7 @@ const ManageHeadline = () => {
 
   const handleUpload = async () => {  
     if (!newsId || !selectedFile) {  
-      alert("Please enter a News ID and select a file.");  
+      alert("Please provide a News ID and select a file.");  
       return;  
     }  
 
@@ -45,10 +44,9 @@ const ManageHeadline = () => {
       <div className="p-2 py-4">  
         <input  
           type="text"  
-          placeholder="Enter News ID"  
-          className="border border-gray-200 rounded px-3 py-1 w-[90%] shadow"  
           value={newsId}  
-          onChange={(e) => setNewsId(e.target.value)}  
+          className="border border-gray-200 rounded px-3 py-1 w-[90%] shadow bg-gray-200 "  
+          disabled  
         />  
       </div>  
 
@@ -58,21 +56,20 @@ const ManageHeadline = () => {
             <input  
               type="text"  
               placeholder="Title"  
-              className="border border-gray-200 rounded px-3 py-1 w-[90%] shadow"  
+              className="border border-gray-200 rounded px-3 py-1 w-[90%] shadow bg-gray-200 "  
+              disabled  
             />  
             <div className="flex flex-row items-center px-3">  
               <span className="w-5">  
                 <img src={editIcon} alt="" />  
               </span>  
               <button className="font-bold">Edit</button>  
-            </div> 
-             
+            </div>  
           </div>  
         </div>  
         <p className="py-5 w-[90%] text-sm text-[#282828]">  
-            Budget 2025 Live: FM Nirmala Sitharaman Announces Huge Tax Relief |  
-            New Tax Slab Explained  
-          </p>
+          Budget 2025 Live: FM Nirmala Sitharaman Announces Huge Tax Relief | New Tax Slab Explained  
+        </p>  
 
         <div className="py-8">  
           <div className="flex flex-row justify-between">  
@@ -99,7 +96,8 @@ const ManageHeadline = () => {
             <input  
               type="text"  
               placeholder="Description"  
-              className="border border-gray-200 rounded px-3 py-1 w-[90%] shadow"  
+              className="border border-gray-200 rounded px-3 py-1 w-[90%] shadow bg-gray-200 "  
+              disabled  
             />  
             <div className="flex flex-row items-center px-3">  
               <span className="w-5">  
@@ -108,40 +106,32 @@ const ManageHeadline = () => {
               <button className="font-bold">Edit</button>  
             </div>  
           </div>  
-           
         </div>  
 
-       
-           
-          
-
         <div>  
-      
           <p className="py-5 w-[95%] text-sm text-[#282828]">  
-            A court in West Bengal has directed the production of individuals  
-            linked to a Bangladesh-based terror outfit who are currently lodged in  
-            an Assam jail. The order comes as part of an ongoing investigation  
-            into cross-border terrorism and illegal activities. Authorities are  
-            expected to transport the suspects for further legal proceedings,  
-            shedding light on the regional security concerns and coordinated  
-            efforts between Indian states to tackle extremist networks. A court in  
-            West Bengal has directed the production of individuals linked to a  
-            Bangladesh-based terror outfit who are currently lodged in an Assam  
-            jail. The order comes as part of an ongoing investigation into  
-            cross-border terrorism and illegal activities. Authorities are  
-            expected to transport the suspects for further legal proceedings,  
-            shedding light on the regional security concerns and coordinated  
-            efforts between Indian states to tackle extremist networks. A court in  
-            West Bengal has directed the production of individuals linked to a  
-            Bangladesh-based terror outfit who are currently lodged in an Assam  
-            jail. The order comes as part of an ongoing investigation into  
-            cross-border terrorism and illegal activities. Authorities are  
-            expected to transport the suspects for further legal proceedings,  
-            shedding light on the regional security concerns and coordinated  
-            efforts between Indian states to tackle extremist networks. A court in  
-            West Bengal has directed the production of individuals linked to a  
-            Bangladesh-based terror outfit who are currently lodged in an Assam  
-            jail...  
+           A court in West Bengal has directed the production of individuals  
+ linked to a Bangladesh-based terror outfit who are currently lodged in  
+an Assam jail. The order comes as part of an ongoing investigation  
+ into cross-border terrorism and illegal activities. Authorities are  
+ expected to transport the suspects for further legal proceedings,  
+ shedding light on the regional security concerns and coordinated  
+ efforts between Indian states to tackle extremist networks. A court in  
+ West Bengal has directed the production of individuals linked to a  
+Bangladesh-based terror outfit who are currently lodged in an Assam   jail. The order comes as part of an ongoing investigation into  
+ cross-border terrorism and illegal activities. Authorities are  
+ expected to transport the suspects for further legal proceedings,  
+ shedding light on the regional security concerns and coordinated  
+ efforts between Indian states to tackle extremist networks. A court in  
+ West Bengal has directed the production of individuals linked to a  
+ Bangladesh-based terror outfit who are currently lodged in an Assam  
+ jail. The order comes as part of an ongoing investigation into  
+ cross-border terrorism and illegal activities. Authorities are  
+ expected to transport the suspects for further legal proceedings,  
+ shedding light on the regional security concerns and coordinated   efforts between Indian states to tackle extremist networks. A court in  
+West Bengal has directed the production of individuals linked to a  
+ Bangladesh-based terror outfit who are currently lodged in an Assam  
+ jail...  
           </p>  
         </div>  
       </div>  
@@ -149,4 +139,6 @@ const ManageHeadline = () => {
   );  
 };  
 
-export default ManageHeadline;  
+export default ManageHeadline;
+
+  
