@@ -38,12 +38,16 @@ export default function SignIn() {
         alert('error')
       }else{   
         const response = await axios.post("https://newsportalbackend-crdw.onrender.com/api/superadmin/signin", values)
-        console.log(response.data)
+        console.log(response.data.user.id)
         console.log(response?.data?.user?._id)
         
         dispatch(authActions.login())
-        localStorage.setItem("id", response.data.user._id)
+        // localStorage.setItem("id", response.user.id)
+        localStorage.setItem("id", response.data.user.id)
         localStorage.setItem("role", response.data.user.role)
+
+        localStorage.setItem("email", response.data.user.email)
+        localStorage.setItem("token", response.data.token)
 
         navigate("/")
       }
