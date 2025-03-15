@@ -270,12 +270,15 @@ const Sidebar = ({view}) => {
             </span>
             Post News 
           </Link>
-          <Link to="/profile" className="hover:bg-[#FFAC06] mt-4 px-5 py-2 flex flex-row">
-            <span className="mr-4">
-              <img src={setting} alt="" />
-            </span>
-            User Management
-          </Link>
+
+
+          <Link to="/user-management" className="hover:bg-[#FFAC06] mt-4 px-5 py-2 flex flex-row">
+  <span className="mr-4">
+    <img src={setting} alt="" />
+  </span>
+  User Management 
+</Link>
+          
           <Link to="/profile" className="hover:bg-[#FFAC06] mt-4 px-5 py-2 flex flex-row">
             <span className="mr-4">
               <img src={profileIcon} alt="" />
