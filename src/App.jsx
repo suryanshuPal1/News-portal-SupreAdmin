@@ -33,7 +33,7 @@ import ResetPassOtpVerification from './Pages/AuthPages/ResetPassOtpVerification
 import EmailVerifySuccess from './Pages/AuthPages/EmailVerifySuccess';
 import UserManagement from './Pages/UserManagement';
 import UserDetails from './Pages/UserDetails';
-// import AboutUs from './Pages/Aboutus';
+import AboutUs from './Pages/AboutUs';
 
 
   
@@ -93,7 +93,7 @@ function App() {
           <Route path='/Post-New-Article' element={<PostNewArticle/>}/>
           <Route path='/Post-Video' element={<PostVideo/>}/>
           <Route path='/user-Details' element={<UserDetails/>}/>
-          {/* <Route path='/Aboutus' element={<Aboutus/>}/> */}
+          <Route path='/Aboutus' element={<AboutUs/>}/>
 
          
 
