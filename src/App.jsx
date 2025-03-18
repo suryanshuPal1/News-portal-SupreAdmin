@@ -82,6 +82,8 @@ function App() {
 
           <Route path='/'element={<Dashboard/>}/>
 
+
+          <Route path='/Manage-New-Headline' element={<ManageHeadline/>}/>
           <Route path='/Manage-New-Article' element={<ManageArticle/>}/>
           <Route path='/Manage-Video' element={<ManageVideo/>}/>
           <Route path="/user-management" element={<UserManagement/>} />
