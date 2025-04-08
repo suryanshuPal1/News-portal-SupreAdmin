@@ -1,83 +1,244 @@
-import React from "react";
-import { AiFillEdit } from "react-icons/ai"; // Importing React Icon
-import Nirmalatai from "../../assets/manage/nermalatai.png";
+import React, { useState, useEffect } from 'react';
+import editIcon from '../../assets/manage/editIcon.png';
 
-export default function ManageVideo() {
+const ManageVideo = ({ newsId, authToken }) => {
+  const [newsData, setNewsData] = useState({
+    title: '',
+    content: '',
+    video: ''
+  });
+
+  const [videoFile, setVideoFile] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // ✅ Fetch news data on mount
+  useEffect(() => {
+    const fetchNewsData = async () => {
+      try {
+        const response = await fetch(
+          `https://newsportalbackend-crdw.onrender.com/api/v1/adminnews/all-news`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              ...(authToken && { 'Authorization': `Bearer ${authToken}` })
+            }
+          }
+        );
+
+        if (!response.ok) throw new Error('Failed to fetch news');
+
+        const data = await response.json();
+        const currentNews = data.data.find((item) => item._id === newsId);
+
+        if (currentNews) {
+          setNewsData({
+            title: currentNews.title || '',
+            content: currentNews.description || '',  
+            video: currentNews.video || ''
+          });
+        }
+      } catch (err) {
+        setError(err.message);
+        console.error('Error fetching news:', err);
+      }
+    };
+
+    if (newsId) {
+      fetchNewsData();
+    }
+  }, [newsId, authToken]);
+
+  // ✅ Handle video file selection
+  const handleFileChange = (e) => {
+    setVideoFile(e.target.files[0]);
+  };
+
+  // ✅ Handle input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewsData((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // ✅ Update Title & Description
+  const updateNewsContent = async () => {
+    if (!newsId) {
+      setError('News ID is required');
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(
+        `https://newsportalbackend-crdw.onrender.com/api/v1/adminnews/update-news/${newsId}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(authToken && { 'Authorization': `Bearer ${authToken}` })
+          },
+          body: JSON.stringify({
+            title: newsData.title,
+            description: newsData.content
+          })
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update news content');
+      }
+
+      alert('Title & Description updated successfully!');
+    } catch (err) {
+      setError(err.message);
+      console.error('Error:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // ✅ Update Video
+  const updateVideo = async () => {
+    if (!newsId) {
+      setError('News ID is required');
+      return;
+    }
+
+    if (!videoFile) {
+      alert('Please select a video to upload.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('video', videoFile);
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(
+        `https://newsportalbackend-crdw.onrender.com/api/v1/adminnews/update-news-avatar-video/${newsId}`,
+        {
+          method: 'PUT',
+          headers: {
+            ...(authToken && { 'Authorization': `Bearer ${authToken}` })
+          },
+          body: formData
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update video');
+      }
+
+      alert('Video updated successfully!');
+    } catch (err) {
+      setError(err.message);
+      console.error('Error:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    setIsLoading(true);
+
+    try {
+      await updateNewsContent();
+
+      if (videoFile) {
+        await updateVideo();
+        alert('Content & Video updated successfully!');
+      } else {
+        alert('Content updated successfully!');
+      }
+    } catch (err) {
+      console.error('Update failed:', err);
+      alert(`Update failed: ${err.message || 'Unknown error'}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="p-6 pt-22 bg-gray-100">
       <h1 className="text-2xl font-semibold">Manage Video</h1>
 
-      <div className="p-2 py-9">
-        {/* Title Input */}
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+          {error}
+        </div>
+      )}
+
+      {isLoading && (
+        <div className="flex justify-center items-center mb-4">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="p-2 py-9">
+
+        {/* Title */}
         <div>
-          <div className="flex flex-row justify-between">
-            <input
-              type="text"
-              placeholder="Title"
-              className="border border-gray-200 rounded px-3 py-1 w-[90%] shadow"
-            />
-            <div className="flex flex-row items-center space-x-2">
-              <AiFillEdit className="text-gray-500 text-lg cursor-pointer" />
-              <button className="font-bold">Edit</button>
-            </div>
-          </div>
-          <p className="w-[39%] text-[#282828] text-sm my-2">
-            Budget 2025 Live: FM Nirmala Sitharaman Announces Huge Tax Relief | New
-            Tax Slab Explained
-          </p>
+          <input
+            type="text"
+            name="title"
+            value={newsData.title}
+            onChange={handleInputChange}
+            placeholder="Title"
+            className="border border-gray-200 rounded px-3 py-1 w-[90%] shadow"
+          />
         </div>
 
-        {/* Video Input */}
+        {/* Video Upload */}
         <div className="py-8">
-          <div className="flex flex-row justify-between">
-            <input
-              type="text"
-              placeholder="Video"
-              className="border border-gray-200 rounded px-3 py-1 w-[90%] shadow"
-            />
-            <div className="flex flex-row items-center space-x-2">
-              <AiFillEdit className="text-gray-500 text-lg cursor-pointer" />
-              <button className="font-bold">Edit</button>
-            </div>
-          </div>
-          <img src={Nirmalatai} alt="Video Thumbnail" className="w-[95%] py-5" />
+          <input
+            type="file"
+            accept="video/*"
+            onChange={handleFileChange}
+            className="border border-gray-200 rounded px-3 py-1 w-[90%] shadow"
+          />
+
+          {newsData.video && (
+            <video controls className="w-[90%] py-5">
+              <source src={newsData.video} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          )}
         </div>
 
-        {/* Description Input */}
+        {/* Description */}
         <div>
-          <div className="flex flex-row justify-between">
-            <input
-              type="text"
-              placeholder="Description"
-              className="border border-gray-200 rounded px-3 py-1 w-[90%] shadow"
-            />
-            <div className="flex flex-row items-center space-x-2">
-              <AiFillEdit className="text-gray-500 text-lg cursor-pointer" />
-              <button className="font-bold">Edit</button>
-            </div>
-          </div>
-          <p className="bg-gray-100 text-gray-800 p-4 md:p-6 rounded-lg shadow-md border-l-4 border-blue-500 leading-relaxed">
-            Finance Minister Nirmala Sitharaman, in the Union Budget 2025, announced
-            significant tax reforms aimed at providing relief to the middle class and
-            stimulating economic growth. Under the new tax regime, income up to ₹12
-            lakh is now exempt from taxation, a substantial increase from the previous
-            threshold of ₹7 lakh.
-            <br />
-            <br />
-            <span className="font-semibold text-gray-900">Income up to ₹4 lakh:</span>{" "}
-            No tax
-            <br />
-            <span className="font-semibold text-gray-900">Above ₹24 lakh:</span> 30%
-            <br />
-            <br />
-            A court in West Bengal has directed the production of individuals linked to a
-            Bangladesh-based terror outfit who are currently lodged in an Assam jail.
-            Authorities are expected to transport the suspects for further legal
-            proceedings, shedding light on the regional security concerns and coordinated
-            efforts between Indian states to tackle extremist networks.
-          </p>
+          <textarea
+            name="content"
+            value={newsData.content}
+            onChange={handleInputChange}
+            placeholder="Description"
+            className="border border-gray-200 rounded px-3 py-1 w-[90%] shadow"
+            rows="4"
+          />
         </div>
-      </div>
+
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 disabled:opacity-50"
+        >
+          {isLoading ? 'Updating...' : 'Update Video'}
+        </button>
+      </form>
     </div>
   );
-}
+};
+
+export default ManageVideo;

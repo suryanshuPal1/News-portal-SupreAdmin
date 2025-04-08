@@ -31,9 +31,12 @@ import Setting from './Pages/Setting'
 import ForgetPass from './Pages/AuthPages/ForgetPass';
 import ResetPassOtpVerification from './Pages/AuthPages/ResetPassOtpVerification';
 import EmailVerifySuccess from './Pages/AuthPages/EmailVerifySuccess';
+import UserManagement from './Pages/UserManagement';
+import UserDetails from './Pages/UserDetails';
+import AboutUs from './Pages/AboutUs';
 
 
-
+  
 function App() {
   const[showNav ,setShowNav] = useState(false);
   const dispatch = useDispatch();
@@ -79,9 +82,11 @@ function App() {
 
           <Route path='/'element={<Dashboard/>}/>
 
-          <Route path='/Manage-New-Headline'element={<ManageHeadline/>}/>
+
+          <Route path='/Manage-New-Headline' element={<ManageHeadline/>}/>
           <Route path='/Manage-New-Article' element={<ManageArticle/>}/>
           <Route path='/Manage-Video' element={<ManageVideo/>}/>
+          <Route path="/user-management" element={<UserManagement/>} />
 
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/setting' element={<Setting/>}/>
@@ -89,6 +94,11 @@ function App() {
           <Route path='/Post-New-Headline' element={<PostNewHeadline/>}/>
           <Route path='/Post-New-Article' element={<PostNewArticle/>}/>
           <Route path='/Post-Video' element={<PostVideo/>}/>
+          <Route path='/user-Details' element={<UserDetails/>}/>
+          <Route path='/Aboutus' element={<AboutUs/>}/>
+
+         
+
         </>) :(<>
           {/* <Route path='/reset-pass' element={<ResetPassword/>}/> */}
           <Route path='/reset-pass-success' element={<ResetPasswordSuccess/>}/>
